@@ -7,6 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: leashall-projet
     steps:
       - uses: actions/checkout@v4
         with:
@@ -14,13 +17,13 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version-file: .java-version
-      - uses: gradle/actions/setup-gradle@v4
+          java-version: '25'
       - name: Build
         run: |
+          echo 25 > .java-version
           chmod +x gradlew
           ./gradlew assemble --no-daemon --stacktrace
       - uses: actions/upload-artifact@v4
         with:
           name: leashall-jar
-          path: build/libs/*.jar
+          path: leashall-projet/build/libs/*.jar
